@@ -1,0 +1,15 @@
+{% extends 'patient_base.html' %}
+
+{% load bootstrap %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="jumbotron">
+      <h1 class="display-4">Ops!</h1>
+      <p class="lead">Você não tem permissão para editar esse paciente.</p>
+      <hr class="my-4">
+      <p>Por favor, entre em contato com o administrador do sistema se precisar de assistência.</p>
+      <a class="btn btn-primary btn-md" href="/patient/{{ pk }}" role="button">Voltar para o paciente</a>
+    </div>
+  </div>
+{% endblock %}

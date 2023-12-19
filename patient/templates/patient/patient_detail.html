@@ -1,0 +1,71 @@
+{% extends 'patient_base.html' %}
+
+{% block body %}
+<div class="container">
+  <div style="margin: 20px;" class="mt-5">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-direction: column;">
+      <h1 class="display-4"><i class="fa-solid fa-hospital-user text-secondary"></i>&nbsp;&nbsp;{{ patient.name }}</h1>
+    <div class="row p-3" style="width: 100%;">
+      <div class="col-sm-12 d-flex flex-direction-row justify-content-center">
+        <div>
+          <button type="button" class="btn btn-warning btn-sm" style="margin-right: 30px;" onclick="window.location=`/exam/create?patient_id={{ patient.id }}`"><i class="fa-solid fa-plus" style="margin-right: 5px;"></i> Adicionar Exame</button>
+          <button type="button" class="btn btn-primary btn-sm" onclick="window.location=`{{ patient.id }}/edit`"><i class="fa-solid fa-pencil" style="margin-right: 5px;"></i> Editar</button>
+          <button type="button" class="btn btn-danger btn-sm" onclick="window.location=`{{ patient.id }}/delete`"><i class="fa-solid fa-xmark" style="margin-right: 5px;"></i> Excluir</button>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div class="row mt-5">
+      <div class="col-md-6">
+        <h5 style="font-weight: 700;"><i class="fas fa-user info-icon"></i> Informações Pessoais</h5>
+        <hr style="color: rgb(202, 202, 202);" class="divider"/>
+        <p><strong style="font-weight: 600;">Gênero:</strong> {{ patient.gender|default:'-' }} </p>
+        <p><strong style="font-weight: 600;">Data de Nascimento:</strong> {{ patient.birth_date|default:'-' }} </p>
+        <p><strong style="font-weight: 600;">Prontuário Médico:</strong> {{ patient.medical_record|default:'-' }} </p>
+        <p><strong style="font-weight: 600;">Responsável:</strong> {{ patient.partner|default:'-' }} </p>
+        <!-- Adicione mais informações pessoais conforme necessário -->
+      </div>
+
+      <div class="col-md-6">
+        <h5 style="font-weight: 700;"><i class="fas fa-map-marker-alt info-icon"></i> Endereço</h5>
+        <hr style="color: rgb(202, 202, 202);" class="divider"/>
+        <p><strong style="font-weight: 600;">Endereço:</strong> {{ patient.address|default:'-' }} </p>
+        <p><strong style="font-weight: 600;">Cidade:</strong> {{ patient.city|default:'-' }} </p>
+        <p><strong style="font-weight: 600;">Estado:</strong> {{ patient.state|default:'-' }} </p>
+        <p><strong style="font-weight: 600;">País:</strong> {{ patient.country|default:'-' }} </p>
+        <!-- Adicione mais informações de endereço conforme necessário -->
+      </div>
+    </div>
+
+    <div class="row mt-3 mb-5">
+      <div class="col-md-6">
+        <h5 style="font-weight: 700;"><i class="fas fa-envelope info-icon"></i> Contato</h5>
+        <hr style="color: rgb(202, 202, 202);" class="divider"/>
+        <p><strong style="font-weight: 600;">E-mail:</strong> {{ patient.email|default:'-' }} </p>
+        <p><strong style="font-weight: 600;">Telefone:</strong> {{ patient.phone|default:'-' }} </p>
+        <p><strong style="font-weight: 600;">Celular:</strong> {{ patient.cellphone|default:'-' }} </p>
+        <!-- Adicione mais informações de contato conforme necessário -->
+      </div>
+
+      <div class="col-md-6">
+        <h5 style="font-weight: 700;"><i class="fas fa-heartbeat info-icon"></i> Saúde</h5>
+        <hr style="color: rgb(202, 202, 202);" class="divider"/>
+        <p><strong style="font-weight: 600;">Tipo Sanguíneo:</strong> {{ patient.blood|default:'-' }}</p>
+        <p><strong style="font-weight: 600;">Peso:</strong> {{ patient.weight|default:'-' }} kg</p>
+        <p><strong style="font-weight: 600;">Altura:</strong> {{ patient.height|default:'-' }} cm</p>
+        <!-- Adicione mais informações de saúde conforme necessário -->
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <h5 style="font-weight: 700;"><i class="fas fa-comment-dots info-icon"></i> Observações</h5>
+        <hr style="color: rgb(202, 202, 202);" class="divider"/>
+        <p>{{ patient.obs|default:'Nenhuma observação' }}</p>
+        <!-- Adicione mais observações conforme necessário -->
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

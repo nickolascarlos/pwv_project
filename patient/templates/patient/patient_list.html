@@ -1,0 +1,62 @@
+{% extends 'patient_base.html' %}
+
+{% block body %}
+<div class="container mt-5">
+    {% if request.GET.q %}
+        <p style="font-size: large;">Mostrando resultados para <strong>"{{request.GET.q}}"</strong></p>
+    {% endif %}
+
+    <table class="table table-hover text-center">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Prontuário</th>
+          <th scope="col">E-mail</th>
+          <th scope="col">Sexo</th>
+          <th scope="col">Data de Nascimento</th>
+          <th scope="col">Responsável</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for patient in object_list %}
+            <tr style="cursor: pointer;" >
+                <td onclick="window.location='{{patient.id}}'">{{ patient.id }}</td>
+                <td onclick="window.location='{{patient.id}}'">{{ patient.name|default:"-" }}</td>
+                <td onclick="window.location='{{patient.id}}'">{{ patient.medical_record|default:"-" }}</td>
+                <td onclick="window.location='{{patient.id}}'">{{ patient.email|default:"-" }}</td>
+                <td onclick="window.location='{{patient.id}}'">{{ patient.gender|default:"-" }}</td>
+                <td onclick="window.location='{{patient.id}}'">{{ patient.birth_date|default:"-" }}</td>
+                <td onclick="window.location='{{patient.id}}'">{{ patient.partner|default:"-" }}</td>
+                <td>
+                    <button onclick="window.location='/patient/{{ patient.id }}'" style="border: none;" type="button" class="btn btn-outline-secondary btn-sm" title="Ver">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button onclick="window.location='/patient/{{ patient.id }}/edit'" style="border: none;" type="button" class="btn btn-outline-secondary btn-sm" title="Editar">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button onclick="window.location.href='/patient/{{patient.id}}/delete'; console.log('ui')" style="border: none;" type="button" class="btn btn-outline-danger btn-sm" title="Excluir">
+                        <i class="fas fa-xmark"></i>
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+        <!-- <tr>
+          <td>197</td>
+          <td>João</td>
+          <td>893230A-7</td>
+          <td>Masculino</td>
+          <td>19/09/2000</td>
+          <td>Maria</td>
+          <td>
+                <i class="fas fa-pencil"></i>
+                <i class="fa-solid fa-xmark"></i>
+                <i class="fas fa-eye"></i>
+          </td>
+        </tr> -->
+        <!-- Adicione mais linhas conforme necessário -->
+      </tbody>
+    </table>
+</div>
+{% endblock %}
