@@ -1,0 +1,27 @@
+{% extends 'base_menu.html' %}
+
+{% block menu_name %}
+    MENU PRINCIPAL  
+{% endblock %}
+
+{% block menu_items %}
+{% endblock %}
+
+{% block body %}
+<div class="container container-fluid d-flex col-md-6 mt-5" style="flex-direction: row;">
+    <div class="flex-grow-1 d-flex" style="flex-direction: row; justify-content: center;">
+        <div class="btn-group">
+            <button onclick="window.location='/patient'" class="btn btn-outline-dark" style="font-size: 18pt; font-weight: 100;"><i class="fa-solid fa-hospital-user"></i>&nbsp;&nbsp;Pacientes&nbsp;&nbsp;</button>
+            <button onclick="window.location='/patient/create'" class="btn btn-dark" style="font-size: 18pt; font-weight: 100;"><i class="fa-solid fa-plus"></i></button>
+        </div>
+    </div>
+    
+    <div class="flex-grow-1 d-flex" style="flex-direction: row;  justify-content: center;">
+        <div class="btn-group" style="flex-direction: row;">
+            <button onclick="window.location='/exam'" class="btn btn-outline-dark" style="font-size: 18pt; font-weight: 100;"><i class="fa-solid fa-eye"></i>&nbsp;&nbsp;Exames&nbsp;&nbsp;</button>
+            <button onclick="window.location='/exam/create'" class="btn btn-dark" style="font-size: 18pt; font-weight: 100;"><i class="fa-solid fa-plus"></i></button>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

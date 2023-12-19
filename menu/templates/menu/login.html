@@ -1,0 +1,90 @@
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+    <title>Login</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: #0063ce;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background-color: #0063ce;
+            border-color: #0063ce;
+        }
+
+        .btn-primary:hover {
+            background-color: rgb(0, 95, 197);
+            border-color: rgb(0, 95, 197);
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h4><span style="font-weight: 900;"><i class="fa-solid fa-droplet"></i></span> <span style="font-weight: 100;">Project</span></h4>
+                    </div>
+
+                    <div class="mb-3"></div>
+
+                    <div class="card-body">
+                        
+                        {% if msg %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ msg }}
+                        </div>
+                        {% endif %}
+
+                        <form method="post" action="{% url 'app_menu:login' %}">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="id_username" class="form-label text-secondary"><strong>Usuário</strong></label>
+                                <input type="text" name="username" class="form-control" id="id_username" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="id_password" class="form-label text-secondary"><strong>Senha</strong></label>
+                                <input type="password" name="password" class="form-control" id="id_password" required>
+                            </div>
+
+                            <div class="mb-5"></div>
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Entrar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

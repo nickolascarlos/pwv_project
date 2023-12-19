@@ -1,0 +1,39 @@
+{% extends 'exam_base.html' %}
+
+{% block menu_name %}
+<div style="display: flex; flex-direction: row;">
+    <div style="flex: 1;"></div>
+    <div style="flex: 3;">EXAME <i class="fa-solid fa-link"></i> PACIENTE</div>
+    <div style="flex: 1;">
+    </div>
+</div>
+{% endblock %}
+
+{% block body %}
+<div class="container d-flex justify-content-center mt-5">
+    <div class="card" style="max-width: 80vw;">
+        <div class="card-header bg-danger text-white">
+            <h5 class="card-title mb-0">Confirmar Desvinculação</h5>
+        </div>
+        <div class="card-body" style="padding: 1em 4em 1em 4em;">
+            <div class="row d-flex align-items-center" style="font-size: large; text-align: center; font-weight: 600;">
+                <p><i class="fa-solid fa-file"></i>&nbsp;&nbsp;Exame #{{ exam_id }}</p>
+            </div>
+            <div class="row" style="font-size: small; text-align: center; color: gray" >
+                <p>será desvinculado de</p>
+            </div>
+            <div class="row" style="text-align: center; font-size: large; font-weight: 600;">
+                <p><i class="fa-solid fa-user"></i>&nbsp;&nbsp;{{ patient_name }}</p>
+            </div>
+            
+        </div>
+        <div class="card-footer text-end bg-light">
+            <form method="post">
+                {% csrf_token %}
+                <button type="button" onclick="window.location='/exam'" class="btn btn-outline-secondary me-2">Cancelar</button>
+                <button type="submit" class="btn btn-danger">Confirmar</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'exam_base.html' %}
+
+{% block menu_name %}
+<div style="display: flex; flex-direction: row;">
+    <div style="flex: 1;"></div>
+    <div style="flex: 3;">EXAME <i class="fa-solid fa-link"></i> PACIENTE</div>
+    <div style="flex: 1;">
+    </div>
+</div>
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="container mt-5 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+            <form class="d-flex">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    <input class="form-control" style="font-size: 16pt; font-weight: 300;" name="q" type="search" placeholder="Pesquisar paciente" aria-label="Search">
+                  </div>
+                  &nbsp;
+                  <button class="btn btn-primary" type="submit">Pesquisar</button>
+            </form>
+            </div>
+        </div>
+    </div>
+
+    <hr class="divider"/>
+
+    {% if request.GET.q %}
+        <p style="font-size: large;">Mostrando resultados para <strong>"{{request.GET.q}}"</strong></p>
+        <hr class="divider"/>
+    {% endif %}
+
+    {% if object_list %}
+    <table class="table table-hover table-striped text-center">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Prontuário</th>
+          <th scope="col">E-mail</th>
+          <th scope="col">Sexo</th>
+          <th scope="col">Data de Nascimento</th>
+          <th scope="col">Responsável</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for patient in object_list %}
+            <tr>
+                <td>{{ patient.id }}</td>
+                <td>{{ patient.name|default:"-" }}</td>
+                <td>{{ patient.medical_record|default:"-" }}</td>
+                <td>{{ patient.email|default:"-" }}</td>
+                <td>{{ patient.gender|default:"-" }}</td>
+                <td>{{ patient.birth_date|default:"-" }}</td>
+                <td>{{ patient.partner|default:"-" }}</td>
+                <td>
+                    <button onclick="window.location='connect/{{patient.id}}'" style="border: none;" type="button" class="btn btn-outline-primary btn-sm" title="Ver">
+                        <i class="fas fa-link"></i>
+                        Vincular
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="alert-danger">Nenhum resultado</p>
+    {% endif %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+
+{% extends 'exam_base.html' %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="d-flex mb-5" style="flex-direction: row; justify-content: flex-end;">
+        <button onclick="window.location='/exam/create'" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i>
+            Adicionar Exame
+        </button>
+    </div>
+
+  {% if request.GET.q %}
+      <p style="font-size: large;">Mostrando resultados para <strong>"{{request.GET.q}}"</strong></p>
+  {% endif %}
+
+  {% if object_list|length > 0 %}
+    <table class="table table-hover text-center">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Paciente</th>
+            <th scope="col">Data e Hora</th>
+            <th scope="col">Responsável</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for exam in object_list %}
+            <tr style="cursor: pointer;">
+                <td onclick="window.location='{{exam.id}}'">{{ exam.id }}</td>
+                <td onclick="window.location='{{exam.id}}'">{{ exam.patient.name|default:"-" }}</td>
+                <td onclick="window.location='{{exam.id}}'">{{ exam.date|date:"d/m/o H:i"|default:"-" }}</td>
+                <td onclick="window.location='{{exam.id}}'">{{ exam.partner|default:"-" }}</td>
+                <td>
+                    <button onclick="window.location='{{exam.id}}/edit'" style="border: none;" type="button" class="btn btn-outline-secondary btn-sm" title="Editar">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button onclick="window.location='{{exam.id}}/delete'" style="border: none;" type="button" class="btn btn-outline-danger btn-sm" title="Excluir">
+                        <i class="fas fa-xmark"></i>
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+
+    <nav class="d-flex mt-5" style="justify-content: center;">
+        <ul class="pagination">
+            {% for page in pages %}
+                {% with page_number=page.0 params=page.1 %}
+                    {% if page_number|add:0 == request.GET.page|default:"1"|add:0 %}
+                        <li class="page-item active"><a class="page-link" href="?{{params}}">{{page.0}}</a></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="?{{params}}">{{page.0}}</a></li>
+                    {% endif %}
+                {% endwith %}
+                
+                
+            {% endfor %}
+        </ul>
+    </nav>
+    
+    
+  {% else %}
+    <p>Nenhum resultado encontrado</p>
+  {% endif %}
+</div>
+{% endblock %}

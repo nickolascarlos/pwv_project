@@ -1,0 +1,185 @@
+{% extends 'exam_base.html' %}
+
+{% block body %}
+<div class="container mt-5">
+  <div class="d-flex" style="flex-direction: row; justify-content:space-between;">
+    <h1 style="font-weight: 100;">
+        {{ exam }}
+        <div style="height: 50%; display: inline-block; vertical-align: middle; display: flex; align-items: center;">
+            {% if exam.processing_status == 'queued' %}
+            <span class="badge alert-warning" style="font-size: 12px;">Na fila</span>
+            {% elif exam.processing_status == 'complete' %}
+            <span class="badge alert-success" style="font-size: 12px;">Processado</span>
+            {% elif exam.processing_status == 'failed' %}
+            <span class="badge alert-danger" style="font-size: 12px;">Falha no processamento</span>
+            {% else %}
+            <span class="badge alert-info" style="font-size: 12px;">{{ exam.processing_status }}</span>
+            {% endif %}
+        </div>
+    </h1>
+    <div>
+      <button type="button" class="btn btn-primary btn-sm" onclick="window.location=`{{ exam.id }}/edit`"><i class="fa-solid fa-pencil" style="margin-right: 5px;"></i> Editar</button>
+      <button type="button" class="btn btn-danger btn-sm" onclick="window.location=`{{ exam.id }}/delete`"><i class="fa-solid fa-xmark" style="margin-right: 5px;"></i> Excluir</button>
+    </div>  
+  </div>
+
+  <hr class="divider mb-4"/>
+
+  <div class="row">
+    <div class="col-md-5">
+      <p class="col-sm-12"><strong style="font-weight: 600;">Paciente:</strong>
+        {% if exam.patient %}
+            <a href="/patient/{{ exam.patient.pk }}">{{ exam.patient }}</a>
+            <button class="btn btn-danger" onclick="window.location='{{exam.id}}/disconnect'"><i class="fa-solid fa-xmark"></i> Desvincular</button></p>
+        {% else %}
+        <button class="btn btn-warning" onclick="window.location='{{exam.id}}/connect'"><i class="fa-solid fa-link"></i> Vincular paciente</button>
+        {% endif %}
+      <p class="col-sm-12"><strong style="font-weight: 600;">Data e Hora:</strong> {{ exam.date|date:"d/m/o H:i"|default:'-' }}</p>
+    </div>
+
+    <div class="col-md-4">
+        <div class="col-sm-12 mb-3">
+            <p style="margin: 0; padding: 0;"><strong style="font-weight: 600;">Taxa de Vasodilatação</strong></p>
+            <p style="margin: 0; padding: 0; font-weight: 100; font-size: 30pt;">&nbsp;{{ exam.vasodilatation_rate|default:'-' }} %</p>
+        </div>
+
+        <div class="col-sm-12 mb-3">
+            <p style="margin: 0; padding: 0;"><strong style="font-weight: 600;">Diâmetro de Repouso</strong></p>
+            <p style="margin: 0; padding: 0; font-weight: 100; font-size: 30pt;">&nbsp;{{ exam.rest_diameter|default:'-' }} mm</p>
+        </div>
+
+        <div class="col-sm-12 mb-3">
+            <p style="margin: 0; padding: 0;"><strong style="font-weight: 600;">Diâmetro Máximo</strong></p>
+            <p style="margin: 0; padding: 0; font-weight: 100; font-size: 30pt;">&nbsp;{{ exam.max_diameter|default:'-' }} mm</p>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="col-sm-12 mb-3">
+            <p style="margin: 0; padding: 0;"><strong style="font-weight: 600;">Taxa Máxima de Fluxo Sanguíneo</strong></p>
+            <p style="margin: 0; padding: 0; font-weight: 100; font-size: 30pt;">&nbsp;{{ exam.max_blood_flow_rate|default:'-' }} X</p>
+        </div>
+
+        <div class="col-sm-12 mb-3">
+            <p style="margin: 0; padding: 0;"><strong style="font-weight: 600;">Espessura da Parede Vascular</strong></p>
+            <p style="margin: 0; padding: 0; font-weight: 100; font-size: 30pt;">&nbsp;{{ exam.vessel_wall_thickness|default:'-' }} mm</p>
+        </div>
+    </div>
+</div>
+
+<!-- Segunda Linha: Imagens e Vídeos -->
+<div class="row mt-5">
+    <div class="d-flex" style="justify-content: center; align-items: center;">
+        <div class='container' style="overflow: hidden;">
+            <ul class="nav nav-tabs">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page">Vídeo do Exame</a>
+                </li>
+            </ul>
+            <div class="d-flex" style='border: 1px #ddd solid; border-top: none; padding: 1em; justify-content: center;'>
+                {% if exam.video_file %}
+                    <video style="height: 40vh; border-radius: 10px; overflow: hidden;" controls>
+                        <source src="/exam/{{ exam.pk }}/video_file" type="{{ exam.video_file.content_type }}">
+                        Seu navegador não suporta o elemento de vídeo.
+                    </video>
+                {% else %}
+                    <p>Nenhum vídeo cadastrado</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-sm-6">
+        <div class='container' style="overflow: hidden;">
+            <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                    <a class="nav-link active" aria-current="page">Vídeo Recortado</a>
+                </li>    
+            </ul>
+            <div class="d-flex" style='border: 1px #ddd solid; border-top: none; padding: 1em; flex-direction: column;'>
+                {% if exam.processed_video_file %}
+                    <div style="display: flex; justify-content: center; align-items: center; width: 100%; border-radius: 10px; overflow: hidden;">
+                        <video id="player_left" style="height: 40vh; width: auto; padding: 0; margin: 0;">
+                            <source src="/exam/{{ exam.pk }}/processed_video_file/left">
+                        </video>
+                        <video id="player_central" style="height: 40vh; width: auto; padding: 0; margin: 0;">
+                            <source src="/exam/{{ exam.pk }}/processed_video_file/central">
+                        </video>
+                        <video id="player_right" style="height: 40vh; width: auto; padding: 0; margin: 0;">
+                            <source src="/exam/{{ exam.pk }}/processed_video_file/right">
+                        </video>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center mt-3" style="flex-direction: column;">
+                        <div class="d-flex">
+                            <div class="input-group">
+                                <button class="btn btn-secondary" onclick="for (element_id of ['player_left', 'player_central', 'player_right']) { document.getElementById(element_id).currentTime = 0; }"><i class="fa-solid fa-backward"></i></button>
+                                <button class="btn btn-secondary" onclick="for (element_id of ['player_left', 'player_central', 'player_right']) { document.getElementById(element_id).play() }"><i class="fa-solid fa-play"></i></button>
+                                <button class="btn btn-secondary" onclick="for (element_id of ['player_left', 'player_central', 'player_right']) { document.getElementById(element_id).pause() }"><i class="fa-solid fa-pause"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <p><i class="fa-solid fa-circle-info"></i> Aguarde o processamento do exame</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 d-flex" style="align-items: center; flex-direction: column;">
+        <div class='container' style="overflow: hidden;">
+            <ul class="nav nav-tabs">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page">Vídeo da Segmentação</a>
+                </li>
+            </ul>
+            <div class="d-flex" style='border: 1px #ddd solid; border-top: none; padding: 1em; justify-content: center;'>
+                 {% if exam.segmentation_video_file %}
+                    <video id="player_right" style=" width: auto; padding: 0; margin: 0; border-radius: 10px; overflow: hidden;" controls>
+                        <source src="/exam/{{ exam.pk }}/segmentation_video_file">
+                    </video>
+                {% else %}
+                    <p><i class="fa-solid fa-circle-info"></i> Aguarde o processamento do exame</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5 mb-5">
+    <div class="col-md-6 d-flex" style="justify-content: center; align-items: center;">
+        <div class='container' style="overflow: hidden;">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page">Gráfico Rest</a>
+                </li>
+            </ul>
+            <div class="d-flex" style='border: 1px #ddd solid; border-top: none; padding: 1em; justify-content: center;'>
+                {% if exam.rest_graph %}
+                    <img src="/exam/image{{ exam.rest_graph.url }}" alt="Gráfico Rest" class="img-fluid">
+                {% else %}
+                    <p><i class="fa-solid fa-circle-info"></i> Aguarde o processamento do exame</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 d-flex" style="justify-content: center; align-items: center;">
+        <div class='container' style="overflow: hidden;">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page">Gráfico After Cuff Released</a>
+                </li>
+            </ul>
+            <div class="d-flex" style='border: 1px #ddd solid; border-top: none; padding: 1em; justify-content: center;'>
+                {% if exam.after_cuff_released_graph %}
+                    <img class="img-thumbnail" src="/exam/image{{ exam.after_cuff_released_graph.url }}" alt="Gráfico After Cuff Released" class="img-fluid">
+                {% else %}
+                    <p><i class="fa-solid fa-circle-info"></i> Aguarde o processamento do exame</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

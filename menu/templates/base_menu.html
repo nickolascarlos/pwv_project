@@ -1,0 +1,100 @@
+{% load static %}
+{% load bootstrap5 %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+    <title>{{title}}</title>
+    <style>
+        /* custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 20px;
+            background-color: transparent;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #5c5c5c;
+            border-radius: 20px;
+            border: 6px solid transparent;
+            background-clip: content-box;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #a8bbbf;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <span class="navbar-brand" onclick="window.location='/'" style="cursor: pointer;"><span style="font-weight: 900;"><i class="fa-solid fa-droplet"></i></span> <span style="font-weight: 100;">Project</span></span>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          {% block menu_items %}
+          <div class="vr" style="color:#6b6d6d; margin-right: 5px"></div>
+          <div class="collapse navbar-collapse flex-grow-1" id="navbarNavDarkDropdown">
+            <ul class="navbar-nav text-center">
+              <li class="nav-item" onclick="window.location='/patient'" style="font-size: medium; margin-right: 15px">
+                <a class="nav-link" style="color: white; font-weight: 300" id="pacientDropdownLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-bed-pulse" style="margin-right: 5px;"></i>
+                    Pacientes
+                </a>
+              </li>
+
+              <li class="nav-item" onclick="window.location='/exam'" style="font-size: medium; margin-right: 15px">
+                <a class="nav-link" style="color: white; font-weight: 300" id="examDropdownLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-file-medical" style="margin-right: 5px;"></i>
+                    Exames
+                </a>
+              </li>
+            </ul>
+          </div>
+          {% endblock %}
+          <div class="collapse navbar-collapse flex-grow-1 text-right">
+
+            <ul class="navbar-nav ms-auto flex-nowrap">
+                <li class="nav-item dropdown">
+                  <span class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-user" style="font-size: 14pt; margin-right: 7px;"></i>
+                    {{ user.get_username }}
+                  </span>
+                  <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-lg-end" aria-labelledby="navbarDarkDropdownMenuLink">
+                    <li><a class="dropdown-item" href="#"><i class="fa-solid fa-gear"></i> <span style="color: rgb(173, 173, 173); margin-left: 5px">Configurações</span></a></li>
+                    <li><a class="dropdown-item" href="#"><i class="fa-solid fa-message"></i> <span style="color: rgb(173, 173, 173); margin-left: 5px">Contato</span></a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="{% url 'app_menu:logout' %}"><i class="fa-solid fa-arrow-right-from-bracket"></i> <span style="color:rgb(173, 173, 173); margin-left: 5px">Sair</span></a></li>
+                  </ul>
+                </li>
+              </ul>
+        </div>
+        </div>
+      </nav>
+      <div class="container-fluid bg-primary text-center pt-2 pb-3">
+        <span class="text-light" style="font-size: 1.5em; font-weight: 100;">{% block menu_name %}{% endblock %}</span>
+      </div>
+
+      <div id="body">
+        {% bootstrap_messages %}
+
+        {% block body %}{% endblock %}
+      </div>
+</body>
+</html>

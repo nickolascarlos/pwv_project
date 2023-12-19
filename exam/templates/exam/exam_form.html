@@ -1,0 +1,53 @@
+{% extends 'exam_base.html' %}
+
+{% load bootstrap %}
+
+{% block body %}
+<div class="container mt-5">
+  <form method="post">
+    {% csrf_token %}
+      <div class="d-flex" style="flex-direction: row; justify-content:space-between;">
+        <h1 style="font-weight: 100;">{{ exam }}</h1>
+        <div>
+          <button type="submit" class="btn btn-primary btn-sm"><i class="fa-solid fa-save" style="margin-right: 5px;"></i> Salvar</button>
+        </div>  
+      </div>
+
+      <hr class="divider mb-4"/>
+
+      <div class="row">
+        <div class="col-md-6">
+          {% for field in form.visible_fields|slice:"0:1" %}
+          <div class="input-group mt-3">
+            <div class="form-floating" style="flex-grow: 1;">
+              <input style="background-color: white;" value="{{field.value}}" name="{{field.name}}" type="text" class="form-control" id="{{field.id_for_label}}" placeholder="{{field.label}} {%if field.help_text %}({{field.help_text}}){%endif%}">
+              <label for="{{field.id_for_label}}">{{field.label}} {%if field.help_text %}({{field.help_text}}){%endif%}</label>
+            </div>
+            <span class="input-group-text"><i class="fa-solid fa-clock"></i></span>
+          </div>
+          {% endfor %}
+      </div>
+        <div class="col-md-6">
+            {% for field in form.visible_fields|slice:"1:" %}
+              <div class="input-group mt-3">
+                <div class="form-floating" style="flex-grow: 1;">
+                  <input style="background-color: white;" value="{% if field.value%}{{field.value}}{%endif%}" name="{{field.name}}" type="text" class="form-control" id="{{field.id_for_label}}" placeholder="{{field.label}}">
+                  <label for="{{field.id_for_label}}">{{field.label}}</label>    
+                </div>
+                <span class="input-group-text">
+                  {%if field.help_text %}{{field.help_text}}{% else %}X{%endif%}
+                </span>
+              </div>
+            {% endfor %}
+        </div>
+    </div>
+  </form>
+  <script>
+    flatpickr("#id_date", {
+      dateFormat: "d/m/Y H:i:S",
+      enableTime: true,
+      locale: 'pt'
+    });
+  </script>
+</div>
+{% endblock %}

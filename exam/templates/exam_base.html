@@ -1,0 +1,18 @@
+{% extends 'base_menu.html' %}
+
+{% block menu_name %}
+<div style="display: flex; flex-direction: row;">
+    <div style="flex: 1;"></div>
+    <div style="flex: 3;">EXAMES</div>
+    <div style="flex: 1;">
+        <form action="/exam" method="get">
+            <div class="input-group rounded">
+                <input name="q" type="search" class="form-control" placeholder="Pesquisar Exame" aria-label="Search" aria-describedby="search-addon" />
+                <button class="btn btn-dark">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
