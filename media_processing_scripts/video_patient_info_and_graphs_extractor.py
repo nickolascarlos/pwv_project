@@ -2,8 +2,8 @@ from itertools import islice
 import uuid
 import cv2 as cv
 from easyocr import Reader
-from subapps_pwv.media_processing_scripts.info_extractor_2 import InfoExtractor
-from subapps_pwv.media_processing_scripts.video_divider import VideoDivider
+from media_processing_scripts.info_extractor_2 import InfoExtractor
+from media_processing_scripts.video_divider import VideoDivider
 
 ocr_reader = Reader(['en', 'pt'])
 
@@ -33,8 +33,8 @@ def extract(video_file, callback):
             callback(3)
             uuidx = uuid.uuid4()
             # TODO: Change from absolute to relative path
-            rest_graph_filename = "subapps_pwv/exam_images/" + str(uuidx) + "_rest_graph.jpg"         
-            after_cuff_filename = "subapps_pwv/exam_images/" + str(uuidx) + "_after_cuff.jpg"
+            rest_graph_filename = "exam_images/" + str(uuidx) + "_rest_graph.jpg"         
+            after_cuff_filename = "exam_images/" + str(uuidx) + "_after_cuff.jpg"
 
             rest_graph = graphs_extracted['rest']
             after_cuff_released_graph = graphs_extracted['after_cuff_released']

@@ -63,7 +63,7 @@ def extract_to_videos(video_file, exam_instance, callback, callback_period=100):
     uuidx = uuid.uuid4()
     result_video_filename_root = Path(video_file).stem[:15] + '_' + str(uuidx) + '_processed_'
 
-    videos_dir_path = "subapps_pwv/exam_videos/"
+    videos_dir_path = "exam_videos/"
     videos_extension = '.mp4' # Don't change that!!!
     absolute_result_video_filename_root = videos_dir_path + result_video_filename_root 
     absolute_result_video_filename_left = absolute_result_video_filename_root + 'left' + videos_extension

@@ -1,6 +1,6 @@
-import subapps_pwv.media_processing_scripts.video_patient_info_and_graphs_extractor as info_and_graphs_extractor
-import subapps_pwv.media_processing_scripts.video_exam_images_extractor as exam_images_extractor
-from subapps_pwv.media_processing_scripts.video_segmentation import create_segmentation_video
+import media_processing_scripts.video_patient_info_and_graphs_extractor as info_and_graphs_extractor
+import media_processing_scripts.video_exam_images_extractor as exam_images_extractor
+from media_processing_scripts.video_segmentation import create_segmentation_video
 
 def process(video_filename, exam_instance):
     def exam_images_extractor_callback(exam, processed_frames, total_frames):

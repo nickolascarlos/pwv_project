@@ -4,10 +4,10 @@ import cv2 as cv
 from pathlib import Path
 
 import numpy as np
-from subapps_pwv.media_processing_scripts.perspective_correction import correct_perspective
+from media_processing_scripts.perspective_correction import correct_perspective
 
-from subapps_pwv.media_processing_scripts.video_divider import VideoDivider
-from subapps_pwv.segmentation_scripts.segmenter import segment
+from media_processing_scripts.video_divider import VideoDivider
+from segmentation_scripts.segmenter import segment
 
 def get_roi_area(vidcap, i = 0):
     # Get first frame
@@ -56,7 +56,7 @@ def create_segmentation_video(video_file, exam_instance, callback, alpha=0.333, 
 
     # TODO: Change from absolute to relative path, somehow
     uuidx = uuid.uuid4()
-    videos_dir_path = "C:/Users/nicko/projetos/heart_project/subapps_pwv/segmentation_exam_videos/"
+    videos_dir_path = "C:/Users/nicko/projetos/pwv_project/segmentation_exam_videos/"
     result_video_filename_root = Path(video_file).stem[:15] + '_' + str(uuidx) + '_segmented.mp4'
     absolute_result_video_filename = videos_dir_path + result_video_filename_root
 
@@ -97,7 +97,7 @@ def create_segmentation_video(video_file, exam_instance, callback, alpha=0.333, 
         # TODO: Remover criação de arquivos temporários
         left_uuid = str(uuid.uuid4())
         right_uuid = str(uuid.uuid4())
-        temp_path = r"C:\Users\nickolas\heart_project\pfc\temp\\"
+        temp_path = r"C:\Users\nicko\projetos\pwv_project\temp\\"
         left_filename = temp_path + left_uuid + '.jpg'
         right_filename = temp_path + right_uuid + '.jpg'
         cv.imwrite(left_filename, left_screen)
